@@ -11,14 +11,14 @@ class CustomInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(1),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(1),
+      decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.grey))
       ),
       child: TextField(
         decoration: InputDecoration(
             hintText: title,
-            hintStyle: TextStyle(color: Colors.grey),
+            hintStyle: const TextStyle(color: Colors.grey),
             label: Text(title),
             border: InputBorder.none,
             ),
