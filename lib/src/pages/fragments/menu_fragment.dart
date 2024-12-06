@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/src/configurations/configuration.dart';
+import 'package:myapp/src/configurations/logout.dart';
 
 class MenuFragment extends StatelessWidget {
-  const MenuFragment({super.key});
+  const MenuFragment({
+    super.key,
+    required this.changePage,
+  });
+
+  final Function(int) changePage;
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: const [
-          DrawerHeader(
+      child: Column(
+        children: [
+          // Cabecera del Drawer con fondo que abarca todo el ancho
+          const SizedBox(
+            width: double.infinity, // Asegura que abarque todo el ancho
+            child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: Colors.green, // Fondo verde
               ),
               child: Column(
                 children: [
@@ -24,9 +33,7 @@ class MenuFragment extends StatelessWidget {
                       size: 50,
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 10),
                   Text(
                     "Menu",
                     style: TextStyle(
@@ -35,26 +42,66 @@ class MenuFragment extends StatelessWidget {
                     ),
                   ),
                 ],
-              )),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text("Inicio"),
+              ),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.search),
-            title: Text("Buscar"),
+
+          // Opciones principales
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.home),
+                  title: const Text("Inicio"),
+                  onTap: () {
+                    changePage(0); // Página de inicio
+                    Navigator.pop(context); // Cerrar el Drawer
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.notifications),
+                  title: const Text("Notificaciones"),
+                  onTap: () {
+                    changePage(1); // Página de notificaciones
+                    Navigator.pop(context); // Cerrar el Drawer
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.calendar_month),
+                  title: const Text("Calendario"),
+                  onTap: () {
+                    changePage(2); // Página de calendario
+                    Navigator.pop(context); // Cerrar el Drawer
+                  },
+                ),
+                // Añade más opciones aquí si es necesario
+              ],
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.calendar_month),
-            title: Text("Calendario"),
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text("Configuracion"),
-          ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text("Cerrar Sesion"),
+
+          // Opciones al final
+          Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text("Configuración"),
+                onTap: () {
+                  Navigator.pop(context); // Cerrar el Drawer
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ConfigurationPage()), // Navegar a la página de configuración
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text("Cerrar Sesión"),
+                onTap: () {
+                  Navigator.pop(context); // Cerrar el Drawer
+                  LogOut.show(context); // Mostrar el diálogo de cierre de sesión
+                },
+              ),
+            ],
           ),
         ],
       ),

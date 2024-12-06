@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/src/widgets/custom_input.dart';
+import 'package:myapp/src/pages/login_page.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Volver a la página de inicio de sesión
+          },
+        ),
+        title: const Text("Registro"),
+      ),
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 0),
         width: double.infinity,
@@ -13,7 +25,6 @@ class RegisterPage extends StatelessWidget {
             gradient: LinearGradient(begin: Alignment.topCenter, colors: [
           Colors.green,
           Colors.teal,
-          Colors.blue,
           Colors.blue,
         ])),
         child: Column(
@@ -97,6 +108,7 @@ class RegisterPage extends StatelessWidget {
                                 ]),
                             child: const Column(
                               children: <Widget>[
+                                SizedBox(height: 25,child: Text("Datos personales:"),),
                                 CustomInput(
                                   title: 'Nombre Completo ',
                                   icon: Icons.person,
@@ -116,6 +128,28 @@ class RegisterPage extends StatelessWidget {
                                 CustomInput(
                                   title: 'Confirmar Contraseña',
                                   icon: Icons.password,
+                                ),
+                                SizedBox(height: 20,),
+                                SizedBox(height: 25,child: Text("Datos de tu mascota:"),),
+                                CustomInput(
+                                  title: 'Nombre',
+                                  icon: Icons.person,
+                                ),
+                                CustomInput(
+                                  title: 'Especie',
+                                  icon: Icons.pets,
+                                ),
+                                CustomInput(
+                                  title: 'Raza',
+                                  icon: Icons.category,
+                                ),
+                                CustomInput(
+                                  title: 'Edad',
+                                  icon: Icons.calendar_today,
+                                ),
+                                CustomInput(
+                                  title: 'Sexo',
+                                  icon: Icons.transgender,
                                 ),
                               ],
                             )),

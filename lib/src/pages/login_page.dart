@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/src/widgets/custom_input.dart';
+import 'package:myapp/src/pages/register_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -99,6 +100,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.teal,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -106,11 +108,11 @@ class LoginPage extends StatelessWidget {
                           onPressed: () => {},
                           child: const Text(
                             '¿Olvidaste tu contraseña?',
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 50,
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -137,6 +139,26 @@ class LoginPage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                          ),
+                        ),
+                        const SizedBox(height: 40,),
+                        const SizedBox(
+                          height: 30,
+                          child: Text("¿No tienes una cuenta? ¡Registrate!"),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.teal,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onPressed: () => {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()),)
+                          },
+                          child: const Text(
+                            'Registrarte',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],

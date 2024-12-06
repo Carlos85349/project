@@ -7,14 +7,14 @@ class BottomMenu extends StatelessWidget {
     required this.currentPage,
   });
 
-  final Function(int) changePage; // Callback para cambiar de página
-  final int currentPage; // Página actual seleccionada
+  final Function(int) changePage;
+  final int currentPage;
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: currentPage, // Índice actual
-      onTap: changePage, // Callback al cambiar de ítem
+      currentIndex: currentPage,
+      onTap: changePage, 
       selectedItemColor: Colors.teal[600],
       items: const [
         BottomNavigationBarItem(

@@ -13,22 +13,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final PageController pageController = PageController(); // PageController
-  int currentPage = 0; // Índice actual del BottomNavigationBar
+  final PageController pageController = PageController();
+  int currentPage = 0;
 
   void _onPageChanged(int index) {
-    // Se llama cuando el PageView cambia de página
     setState(() {
       currentPage = index;
     });
   }
 
   void _onBottomNavigationTapped(int index) {
-    // Se llama cuando se selecciona un elemento del BottomNavigationBar
     setState(() {
       currentPage = index;
     });
-    // Cambiar la página del PageView
     pageController.jumpToPage(index);
   }
 
@@ -39,11 +36,22 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.green,
         title: const Text("Bienvenido, usuario"),
+        actions: [
+          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
+        ],
       ),
-      drawer: const MenuFragment(),
+      drawer: MenuFragment(
+          changePage: (index) {
+          setState(() {
+            currentPage = index; 
+          });
+          pageController.jumpToPage(index); 
+        },
+      ),
       body: PageView(
         controller: pageController,
-        onPageChanged: _onPageChanged, // Sincroniza con el BottomNavigationBar
+        onPageChanged: _onPageChanged, 
         children: const [
           InicioFragment(),
           NotificacionesFragment(),
@@ -52,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomMenu(
         currentPage: currentPage,
-        changePage: _onBottomNavigationTapped, // Cambiar página
+        changePage: _onBottomNavigationTapped,
       ),
     );
   }

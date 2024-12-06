@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/src/pages/fragments/register_page.dart';
+import 'package:myapp/src/pages/register_page.dart';
 import 'package:myapp/src/pages/home_page.dart';
 import 'package:myapp/src/pages/login_page.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Pets App',
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }
