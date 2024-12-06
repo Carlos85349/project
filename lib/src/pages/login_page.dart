@@ -141,7 +141,9 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40,),
+                        const SizedBox(
+                          height: 40,
+                        ),
                         const SizedBox(
                           height: 30,
                           child: Text("¿No tienes una cuenta? ¡Registrate!"),
@@ -153,9 +155,8 @@ class LoginPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: () => {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()),)
-                          },
+                          onPressed: () =>
+                              {Navigator.pushNamed(context, '/register')},
                           child: const Text(
                             'Registrarte',
                             style: TextStyle(color: Colors.white),

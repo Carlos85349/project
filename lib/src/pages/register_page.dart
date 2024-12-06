@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/src/widgets/custom_input.dart';
-import 'package:myapp/src/pages/login_page.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -108,7 +107,10 @@ class RegisterPage extends StatelessWidget {
                                 ]),
                             child: const Column(
                               children: <Widget>[
-                                SizedBox(height: 25,child: Text("Datos personales:"),),
+                                SizedBox(
+                                  height: 25,
+                                  child: Text("Datos personales:"),
+                                ),
                                 CustomInput(
                                   title: 'Nombre Completo ',
                                   icon: Icons.person,
@@ -129,8 +131,13 @@ class RegisterPage extends StatelessWidget {
                                   title: 'Confirmar Contraseña',
                                   icon: Icons.password,
                                 ),
-                                SizedBox(height: 20,),
-                                SizedBox(height: 25,child: Text("Datos de tu mascota:"),),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                  height: 25,
+                                  child: Text("Datos de tu mascota:"),
+                                ),
                                 CustomInput(
                                   title: 'Nombre',
                                   icon: Icons.person,

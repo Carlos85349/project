@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/src/configurations/configuration.dart';
 import 'package:myapp/src/configurations/logout.dart';
 
 class MenuFragment extends StatelessWidget {
@@ -86,11 +85,7 @@ class MenuFragment extends StatelessWidget {
                 leading: const Icon(Icons.settings),
                 title: const Text("Configuración"),
                 onTap: () {
-                  Navigator.pop(context); // Cerrar el Drawer
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ConfigurationPage()), // Navegar a la página de configuración
-                  );
+                  Navigator.pushNamed(context, '/confi'); // Cerrar el Drawer
                 },
               ),
               ListTile(
@@ -98,7 +93,8 @@ class MenuFragment extends StatelessWidget {
                 title: const Text("Cerrar Sesión"),
                 onTap: () {
                   Navigator.pop(context); // Cerrar el Drawer
-                  LogOut.show(context); // Mostrar el diálogo de cierre de sesión
+                  LogOut.show(
+                      context); // Mostrar el diálogo de cierre de sesión
                 },
               ),
             ],

@@ -20,7 +20,10 @@ class _CalendarioFragmentState extends State<CalendarioFragment> {
     _selectedDay = DateTime.now();
     _selectedEvents = ValueNotifier([]);
     _calendarFormat = CalendarFormat.month;
-    _dateController.text = _selectedDay.toLocal().toString().split(' ')[0]; // Iniciar el TextField con la fecha actual
+    _dateController.text = _selectedDay
+        .toLocal()
+        .toString()
+        .split(' ')[0]; // Iniciar el TextField con la fecha actual
   }
 
   @override
@@ -53,7 +56,10 @@ class _CalendarioFragmentState extends State<CalendarioFragment> {
               setState(() {
                 _selectedDay = selectedDay;
                 _selectedEvents.value = _getEventsForDay(selectedDay);
-                _dateController.text = _selectedDay.toLocal().toString().split(' ')[0]; // Actualizar la fecha en el TextField
+                _dateController.text = _selectedDay
+                    .toLocal()
+                    .toString()
+                    .split(' ')[0]; // Actualizar la fecha en el TextField
               });
             },
             calendarFormat: _calendarFormat,
@@ -119,7 +125,8 @@ class _CalendarioFragmentState extends State<CalendarioFragment> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Agregar evento para ${_selectedDay.toLocal().toString().split(' ')[0]}'),
+          title: Text(
+              'Agregar evento para ${_selectedDay.toLocal().toString().split(' ')[0]}'),
           content: const TextField(
             decoration: InputDecoration(labelText: 'Título del evento'),
           ),
@@ -151,8 +158,10 @@ class _CalendarioFragmentState extends State<CalendarioFragment> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Eventos para ${_selectedDay.toLocal().toString().split(' ')[0]}'),
-          content: const Text('Aquí puedes ver los eventos programados para este día.'),
+          title: Text(
+              'Eventos para ${_selectedDay.toLocal().toString().split(' ')[0]}'),
+          content: const Text(
+              'Aquí puedes ver los eventos programados para este día.'),
           actions: [
             TextButton(
               onPressed: () {
