@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/src/pages/fragments/register_page.dart';
 import 'package:myapp/src/pages/home_page.dart';
 import 'package:myapp/src/pages/login_page.dart';
 
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: HomePage(),
+      title: 'Pets App',
+      home: RegisterPage(),
     );
   }
 }
