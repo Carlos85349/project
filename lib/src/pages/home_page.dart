@@ -13,48 +13,46 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final pageViewController = PageController();
-  int currentPage = 0;
+  final PageController pageController = PageController(); // PageController
+  int currentPage = 0; // Índice actual del BottomNavigationBar
+
+  void _onPageChanged(int index) {
+    // Se llama cuando el PageView cambia de página
+    setState(() {
+      currentPage = index;
+    });
+  }
+
+  void _onBottomNavigationTapped(int index) {
+    // Se llama cuando se selecciona un elemento del BottomNavigationBar
+    setState(() {
+      currentPage = index;
+    });
+    // Cambiar la página del PageView
+    pageController.jumpToPage(index);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
-      key: scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.green,
         title: const Text("Bienvenido, usuario"),
-        leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              scaffoldKey.currentState?.openDrawer();
-            }),
-        actions: [
-          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
-        ],
       ),
       drawer: const MenuFragment(),
       body: PageView(
-        //physics: const NeverScrollableScrollPhysics(),
-        controller: pageViewController,
+        controller: pageController,
+        onPageChanged: _onPageChanged, // Sincroniza con el BottomNavigationBar
         children: const [
           InicioFragment(),
           NotificacionesFragment(),
           CalendarioFragment(),
         ],
-        onPageChanged: (index) {
-          currentPage = index;
-          setState(() {});
-        },
       ),
       bottomNavigationBar: BottomMenu(
         currentPage: currentPage,
-        changePage: (index) {
-          pageViewController.jumpToPage(index);
-        },
+        changePage: _onBottomNavigationTapped, // Cambiar página
       ),
     );
   }
