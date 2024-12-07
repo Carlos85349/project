@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/src/widgets/custom_input.dart';
+import 'package:myapp/src/widgets/password.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -104,11 +105,14 @@ class LoginPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: () => {},
                           child: const Text(
                             '¿Olvidaste tu contraseña?',
                             style: TextStyle(color: Colors.white),
                           ),
+                          onPressed: () {
+                            // Llama al método para mostrar el diálogo
+                            ForgotPasswordDialog.show(context);
+                          },
                         ),
                         const SizedBox(
                           height: 50,
