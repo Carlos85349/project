@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/src/widgets/custom_input.dart';
-import 'package:myapp/src/pages/register_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
