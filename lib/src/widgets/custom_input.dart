@@ -5,10 +5,14 @@ class CustomInput extends StatelessWidget {
     super.key,
     required this.title,
     this.icon,
+    this.controller,
+    this.obscureText = false,
   });
 
   final String title;
   final IconData? icon;
+  final TextEditingController? controller; // Nuevo parámetro
+  final bool obscureText; // Para manejar campos con texto oculto, como contraseñas
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +22,8 @@ class CustomInput extends StatelessWidget {
         border: Border(bottom: BorderSide(color: Colors.grey)),
       ),
       child: TextField(
+        controller: controller, // Asociamos el controlador
+        obscureText: obscureText, // Manejo de texto oculto
         decoration: InputDecoration(
           hintText: title,
           hintStyle: const TextStyle(color: Colors.grey),

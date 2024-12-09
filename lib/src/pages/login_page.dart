@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/src/widgets/custom_input.dart';
 import 'package:myapp/src/widgets/password.dart';
+import 'package:provider/provider.dart'; // Asegúrate de agregar este import
+import 'package:myapp/src/providers/login_provider.dart';
+import 'package:myapp/src/widgets/custom_input.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,24 +83,31 @@ class LoginPage extends StatelessWidget {
                           height: 25,
                         ),
                         Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(95, 225, 27, .3),
-                                    blurRadius: 20,
-                                    offset: Offset(0, 10),
-                                  )
-                                ]),
-                            child: const Column(
-                              children: <Widget>[
-                                CustomInput(
-                                    title: 'E-mail o numero de telefono'),
-                                CustomInput(title: 'Contraseña'),
-                              ],
-                            )),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(95, 225, 27, .3),
+                                  blurRadius: 20,
+                                  offset: Offset(0, 10),
+                                )
+                              ]),
+                          child: Column(
+                            children: <Widget>[
+                              CustomInput(
+                                title: 'E-mail o número de teléfono',
+                                controller: _emailController,
+                              ),
+                              CustomInput(
+                                title: 'Contraseña',
+                                controller: _passwordController,
+                                obscureText: true,
+                              ),
+                            ],
+                          ),
+                        ),
                         const SizedBox(
                           height: 40,
                         ),
@@ -115,9 +127,7 @@ class LoginPage extends StatelessWidget {
                             ForgotPasswordDialog.show(context);
                           },
                         ),
-                        const SizedBox(
-                          height: 50,
-                        ),
+                        const SizedBox( height: 40,),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
@@ -125,7 +135,59 @@ class LoginPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            final String email = _emailController.text.trim();
+                            final String password =
+                                _passwordController.text.trim();
+
+                            if (email.isEmpty || password.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'Por favor completa todos los campos.'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
+
+                            if (password.length < 8) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'La contraseña debe tener al menos 8 caracteres.'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
+
+                            final loginProvider =
+                                Provider.of<LoginProvider>(context,
+                                    listen: false);
+
+                            await loginProvider.loginUser(
+                              email: email,
+                              password: password,
+                              onSuccess: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Inicio de sesión exitoso.'),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                                Navigator.pushNamed(context, '/home');
+                              },
+                              onError: (error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(error),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              },
+                            ).runtimeType;
+                          },
                           child: Container(
                             height: 50,
                             margin: const EdgeInsets.symmetric(horizontal: 50),
@@ -135,7 +197,7 @@ class LoginPage extends StatelessWidget {
                             ),
                             child: const Center(
                               child: Text(
-                                'Iniciar Sesion',
+                                'Iniciar Sesión',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -150,7 +212,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         const SizedBox(
                           height: 30,
-                          child: Text("¿No tienes una cuenta? ¡Registrate!"),
+                          child: Text("¿No tienes una cuenta? ¡Regístrate!"),
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -162,7 +224,7 @@ class LoginPage extends StatelessWidget {
                           onPressed: () =>
                               {Navigator.pushNamed(context, '/register')},
                           child: const Text(
-                            'Registrarte',
+                            'Regístrate',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

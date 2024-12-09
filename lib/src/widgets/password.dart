@@ -5,13 +5,15 @@ class ForgotPasswordDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return _ForgotPasswordForm();
+        return const _ForgotPasswordForm();
       },
     );
   }
 }
 
 class _ForgotPasswordForm extends StatefulWidget {
+  const _ForgotPasswordForm({super.key});
+
   @override
   State<_ForgotPasswordForm> createState() => _ForgotPasswordFormState();
 }
@@ -60,8 +62,7 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 500, maxHeight: 600),
+      child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -76,45 +77,45 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    TextField(
+                    TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
                         labelText: 'Correo electrónico',
                         prefixIcon: const Icon(
                           Icons.email,
-                          color: Color.fromARGB(169, 25, 178, 20),
+                          color: Colors.green,
                         ),
                         errorText: _emailController.text.isNotEmpty &&
                                 !_isValidEmail(_emailController.text)
-                            ? 'Por favor, introduce un correo válido'
+                            ? 'Introduce un correo válido'
                             : null,
                       ),
                       keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 16),
-                    TextField(
+                    TextFormField(
                       controller: _newPasswordController,
                       decoration: InputDecoration(
                         labelText: 'Nueva contraseña',
                         prefixIcon: const Icon(
                           Icons.lock,
-                          color: Color.fromARGB(169, 25, 178, 20),
+                          color: Colors.green,
                         ),
                         errorText: _newPasswordController.text.isNotEmpty &&
                                 _newPasswordController.text.length < 8
-                            ? 'La contraseña debe tener al menos 8 caracteres'
+                            ? 'Debe tener al menos 8 caracteres'
                             : null,
                       ),
                       obscureText: true,
                     ),
                     const SizedBox(height: 16),
-                    TextField(
+                    TextFormField(
                       controller: _repeatPasswordController,
                       decoration: InputDecoration(
-                        labelText: 'Repita la contraseña',
+                        labelText: 'Repite la contraseña',
                         prefixIcon: const Icon(
                           Icons.lock_outline,
-                          color: Color.fromARGB(169, 25, 178, 20),
+                          color: Colors.green,
                         ),
                         errorText: _repeatPasswordController.text.isNotEmpty &&
                                 _newPasswordController.text !=
@@ -140,9 +141,21 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
                   ElevatedButton(
                     onPressed: _isButtonEnabled
                         ? () {
+                            // Aquí puedes llamar a tu lógica de recuperación de contraseña
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Solicitud enviada exitosamente'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
                             Navigator.of(context).pop();
                           }
                         : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _isButtonEnabled
+                          ? Colors.green
+                          : Colors.grey, // Color dinámico
+                    ),
                     child: const Text('Aceptar'),
                   ),
                 ],

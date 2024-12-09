@@ -1,43 +1,106 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-enum AuthStatus { notAuthentication, chaeking, authenticated }
-
-class LoginProvider extends ChangeNotifier {
-  // ignore: unused_field
+class LoginProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // ignore: unused_field
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  AuthStatus authStatus = AuthStatus.notAuthentication;
-
-  // ignore: non_constant_identifier_names
-  Future<void> LoginUser({
-    required String usernameOrEmail,
+  /// Iniciar sesión con correo y contraseña
+  Future<void> loginUser({
+    required String email,
     required String password,
-    required Function onSuccess,
+    required VoidCallback onSuccess,
     required Function(String) onError,
   }) async {
     try {
-      authStatus = AuthStatus.chaeking;
-      notifyListeners();
-      // ignore: unused_local_variable
-      final String userNameOrEmailLowerCase = usernameOrEmail.toLowerCase();
-      final QuerySnapshot result = await _firestore
-          .collection('user')
-          .where('username_lowercase', isEqualTo: userNameOrEmailLowerCase)
-          .limit(1)
-          .get();
-
-      if (result.docs.isNotEmpty) {
-        final String email = result.docs.first.get('email');
-        final UserCredential userCredential = await _auth
-            .signInWithEmailAndPassword(email: email, password: password);
-        onSuccess();
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      onSuccess();
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No se encontró un usuario con este correo.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Contraseña incorrecta.';
+      } else {
+        errorMessage = 'Error: ${e.message}';
       }
+      onError(errorMessage);
     } catch (e) {
+      print("Error durante el inicio de sesión: $e");
       onError(e.toString());
+      //onError('Ocurrió un error inesperado. Por favor, inténtalo de nuevo.');
     }
   }
+
+  /// Registrar un nuevo usuario
+  Future<void> registerUser({
+    required String name,
+    required String phone,
+    required String email,
+    required String password,
+    required String confirmPassword,
+    required String petName,
+    required String petSpecies,
+    required String petBreed,
+    required String petAge,
+    required String petGender,
+    required VoidCallback onSuccess,
+    required Function(String) onError,
+  }) async {
+    // Validación básica
+    if (password != confirmPassword) {
+      onError("Las contraseñas no coinciden.");
+      return;
+    }
+    if (password.length < 8) {
+      onError("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
+
+    try {
+      // Registrar el usuario en Firebase
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Puedes guardar la información adicional del usuario (nombre, teléfono, etc.) en Firestore
+      // Esto es opcional y depende de cómo estructures tu base de datos.
+      
+      onSuccess();  // Si todo va bien, ejecuta el callback de éxito
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      if (e.code == 'email-already-in-use') {
+        errorMessage = 'El correo ya está registrado.';
+      } else if (e.code == 'weak-password') {
+        errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
+      } else {
+        errorMessage = 'Error: ${e.message}';
+      }
+      onError(errorMessage);
+    } catch (e) {
+      onError('Ocurrió un error inesperado. Por favor, inténtalo de nuevo.');
+    }
+  }
+
+  /// Cerrar sesión del usuario actual
+  Future<void> logoutUser({
+    required VoidCallback onSuccess,
+    required Function(String) onError,
+  }) async {
+    try {
+      await _auth.signOut();
+      onSuccess();
+    } catch (e) {
+      onError('No se pudo cerrar sesión. Por favor, inténtalo de nuevo.');
+    }
+  }
+
+  /// Obtener el usuario actualmente autenticado
+  User? get currentUser => _auth.currentUser;
+
+  /// Escuchar cambios en el estado de autenticación
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
 }
