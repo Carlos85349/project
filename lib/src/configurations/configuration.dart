@@ -4,10 +4,10 @@ class ConfigurationPage extends StatefulWidget {
   const ConfigurationPage({super.key});
 
   @override
-  _ConfigurationPageState createState() => _ConfigurationPageState();
+  ConfigurationPageState createState() => ConfigurationPageState();
 }
 
-class _ConfigurationPageState extends State<ConfigurationPage> {
+class ConfigurationPageState extends State<ConfigurationPage> {
   // Variable que controla el estado de las notificaciones
   bool _isNotificationEnabled = true;
 
