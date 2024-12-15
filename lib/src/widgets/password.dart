@@ -12,7 +12,7 @@ class ForgotPasswordDialog {
 }
 
 class _ForgotPasswordForm extends StatefulWidget {
-  const _ForgotPasswordForm({super.key});
+  const _ForgotPasswordForm();
 
   @override
   State<_ForgotPasswordForm> createState() => _ForgotPasswordFormState();

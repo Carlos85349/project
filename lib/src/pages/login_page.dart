@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/src/widgets/password.dart';
-import 'package:provider/provider.dart'; // Asegúrate de agregar este import
+import 'package:provider/provider.dart'; 
 import 'package:myapp/src/providers/login_provider.dart';
 import 'package:myapp/src/widgets/custom_input.dart';
 
@@ -166,7 +166,7 @@ class LoginPage extends StatelessWidget {
                                 Provider.of<LoginProvider>(context,
                                     listen: false);
 
-                            await loginProvider.loginUser(
+                            loginProvider.loginUser(
                               email: email,
                               password: password,
                               onSuccess: () {

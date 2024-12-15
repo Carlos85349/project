@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   /// Iniciar sesión con correo y contraseña
   Future<void> loginUser({
@@ -33,7 +35,6 @@ class LoginProvider with ChangeNotifier {
       //onError('Ocurrió un error inesperado. Por favor, inténtalo de nuevo.');
     }
   }
-
   /// Registrar un nuevo usuario
   Future<void> registerUser({
     required String name,
@@ -66,10 +67,20 @@ class LoginProvider with ChangeNotifier {
         password: password,
       );
 
-      // Puedes guardar la información adicional del usuario (nombre, teléfono, etc.) en Firestore
-      // Esto es opcional y depende de cómo estructures tu base de datos.
-      
-      onSuccess();  // Si todo va bien, ejecuta el callback de éxito
+      // Guardar información adicional del usuario en Firestore 
+      await _firestore.collection('users').doc(userCredential.user?.uid).set({
+         'name': name, 
+         'phone': phone, 
+         'email': email, 
+         'petName': petName, 
+         'petSpecies': petSpecies, 
+         'petBreed': petBreed, 
+         'petAge': petAge, 
+         'petGender': petGender, 
+         'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      onSuccess(); //ejecuta el callback de éxito
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       if (e.code == 'email-already-in-use') {
@@ -84,7 +95,6 @@ class LoginProvider with ChangeNotifier {
       onError('Ocurrió un error inesperado. Por favor, inténtalo de nuevo.');
     }
   }
-
   /// Cerrar sesión del usuario actual
   Future<void> logoutUser({
     required VoidCallback onSuccess,
@@ -97,7 +107,6 @@ class LoginProvider with ChangeNotifier {
       onError('No se pudo cerrar sesión. Por favor, inténtalo de nuevo.');
     }
   }
-
   /// Obtener el usuario actualmente autenticado
   User? get currentUser => _auth.currentUser;
 

@@ -9,16 +9,16 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Controladores para los campos de registro
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _phoneController = TextEditingController();
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final TextEditingController _confirmPasswordController = TextEditingController();
-    final TextEditingController _petNameController = TextEditingController();
-    final TextEditingController _petSpeciesController = TextEditingController();
-    final TextEditingController _petBreedController = TextEditingController();
-    final TextEditingController _petAgeController = TextEditingController();
-    final TextEditingController _petGenderController = TextEditingController();
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController phoneController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController confirmPasswordController = TextEditingController();
+    final TextEditingController petNameController = TextEditingController();
+    final TextEditingController petSpeciesController = TextEditingController();
+    final TextEditingController petBreedController = TextEditingController();
+    final TextEditingController petAgeController = TextEditingController();
+    final TextEditingController petGenderController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -124,29 +124,29 @@ class RegisterPage extends StatelessWidget {
                               CustomInput(
                                 title: 'Nombre Completo ',
                                 icon: Icons.person,
-                                controller: _nameController,
+                                controller: nameController,
                               ),
                               CustomInput(
                                 title: 'Número de teléfono',
                                 icon: Icons.phone,
-                                controller: _phoneController,
+                                controller: phoneController,
                               ),
                               CustomInput(
                                 title: 'Correo electrónico',
                                 icon: Icons.email,
-                                controller: _emailController,
+                                controller: emailController,
                               ),
                               CustomInput(
                                 title: 'Contraseña',
                                 icon: Icons.password,
                                 obscureText: true,
-                                controller: _passwordController,
+                                controller: passwordController,
                               ),
                               CustomInput(
                                 title: 'Confirmar Contraseña',
                                 icon: Icons.password,
                                 obscureText: true,
-                                controller: _confirmPasswordController,
+                                controller: confirmPasswordController,
                               ),
                               const SizedBox(
                                 height: 20,
@@ -158,27 +158,27 @@ class RegisterPage extends StatelessWidget {
                               CustomInput(
                                 title: 'Nombre de mascota',
                                 icon: Icons.pets,
-                                controller: _petNameController,
+                                controller: petNameController,
                               ),
                               CustomInput(
                                 title: 'Especie',
                                 icon: Icons.pets,
-                                controller: _petSpeciesController,
+                                controller: petSpeciesController,
                               ),
                               CustomInput(
                                 title: 'Raza',
                                 icon: Icons.category,
-                                controller: _petBreedController,
+                                controller: petBreedController,
                               ),
                               CustomInput(
                                 title: 'Edad',
                                 icon: Icons.calendar_today,
-                                controller: _petAgeController,
+                                controller: petAgeController,
                               ),
                               CustomInput(
                                 title: 'Sexo',
                                 icon: Icons.transgender,
-                                controller: _petGenderController,
+                                controller: petGenderController,
                               ),
                             ],
                           ),
@@ -197,16 +197,16 @@ class RegisterPage extends StatelessWidget {
                             // Llamar al provider para registrar el usuario
                             final loginProvider = Provider.of<LoginProvider>(context, listen: false);
                             loginProvider.registerUser(
-                              name: _nameController.text,
-                              phone: _phoneController.text,
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                              confirmPassword: _confirmPasswordController.text,
-                              petName: _petNameController.text,
-                              petSpecies: _petSpeciesController.text,
-                              petBreed: _petBreedController.text,
-                              petAge: _petAgeController.text,
-                              petGender: _petGenderController.text,
+                              name: nameController.text,
+                              phone: phoneController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                              confirmPassword: confirmPasswordController.text,
+                              petName: petNameController.text,
+                              petSpecies: petSpeciesController.text,
+                              petBreed: petBreedController.text,
+                              petAge: petAgeController.text,
+                              petGender: petGenderController.text,
                               onSuccess: () {
                                 // Si el registro fue exitoso
                                 Navigator.pushNamed(context, '/home');
